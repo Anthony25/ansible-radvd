@@ -31,6 +31,22 @@
     mode: '0644'
   with_items: radvd_interfaces
 
+- name: Map all radvd interfaces
+  set_fact:
+    _radvd_interfaces_names: "{{ radvd_interfaces | map(attribute='interface') | list }}"
+
+- name: List current radvd interfaces configs
+  shell: ls /etc/radvd.conf.d/interface_*
+  register: _radvd_ls_old_netif_configs
+  changed_when: false
+
+- name: Remove old radvd interfaces configs
+  file:
+    path: "{{ item }}"
+    state: absent
+  when: "'{{ item|regex_replace('/etc/radvd\\.conf\\.d/interface_') }}' not in _radvd_interfaces_names"
+  with_items: "{{ _radvd_ls_old_netif_configs.stdout_lines | default([]) }}"
+
 - name: Assemble /etc/radvd.conf
   assemble:
     src: '/etc/radvd.conf.d'
