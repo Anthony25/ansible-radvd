@@ -1,35 +1,37 @@
 ---
 
+- include: dist_vars.yml
+
 - name: Install radvd package
-  apt:
-    name: 'radvd'
-    state: 'latest'
-    install_recommends: False
+  package:
+    name: "{{ item }}"
+    state: "latest"
+  with_items: "{{ radvd_packages }}"
 
 - name: Create /etc/radvd.conf.d directory
   file:
-    path: '/etc/radvd.conf.d'
-    state: 'directory'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
+    path: "/etc/radvd.conf.d"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
 
 - name: Create configuration header
   template:
-    src: 'etc/radvd.conf.d/00_ansible.j2'
-    dest: '/etc/radvd.conf.d/00_ansible'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
+    src: "etc/radvd.conf.d/00_ansible.j2"
+    dest: "/etc/radvd.conf.d/00_ansible"
+    owner: "root"
+    group: "root"
+    mode: "0644"
 
 - name: Configure radvd interfaces
   template:
-    src: 'etc/radvd.conf.d/interface.j2'
-    dest: '/etc/radvd.conf.d/interface_{{ item.interface }}'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
-  with_items: radvd_interfaces
+    src: "etc/radvd.conf.d/interface.j2"
+    dest: "/etc/radvd.conf.d/interface_{{ item.interface }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  with_items: "{{ radvd_interfaces }}"
 
 - name: Map all radvd interfaces
   set_fact:
@@ -49,10 +51,11 @@
 
 - name: Assemble /etc/radvd.conf
   assemble:
-    src: '/etc/radvd.conf.d'
-    dest: '/etc/radvd.conf'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
-  notify: [ 'Test radvd and reload' ]
+    src: "/etc/radvd.conf.d"
+    dest: "/etc/radvd.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: ["Test radvd and reload"]
 
+# vim: set ts=2 sw=2:
