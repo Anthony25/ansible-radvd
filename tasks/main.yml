@@ -1,10 +1,12 @@
 ---
 
+- include: dist_vars.yml
+
 - name: Install radvd package
-  apt:
-    name: 'radvd'
+  package:
+    name: '{{ item }}'
     state: 'latest'
-    install_recommends: False
+  with_items: '{{ radvd_packages }}'
 
 - name: Create /etc/radvd.conf.d directory
   file:
