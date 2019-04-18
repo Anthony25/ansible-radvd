@@ -1,9 +1,5 @@
 ---
 
-dependencies:
-
-  - role: debops.ansible_plugins
-
 galaxy_info:
   author: 'Maciej Delmanowski'
   description: 'Manage radvd (IPv6 router advertisement daemon)'

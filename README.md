@@ -31,10 +31,6 @@ More information about `debops.radvd` can be found in the
 [official debops.radvd documentation](https://docs.debops.org/en/latest/ansible/roles/ansible-radvd/docs/).
 
 
-### Role dependencies
-
-- `debops.ansible_plugins`
-
 ### Are you using this as a standalone role without DebOps?
 
 You may need to include missing roles from the [DebOps common
