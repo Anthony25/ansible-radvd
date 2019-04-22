@@ -34,6 +34,12 @@
     mode: '0755'
   register: radvd__register_facts
 
+- name: Ensure that radvd service is started
+  service:
+    name: radvd
+    state: started
+    enabled: true
+
 - name: Update Ansible facts if they were modified
   action: setup
   when: radvd__register_facts|changed
