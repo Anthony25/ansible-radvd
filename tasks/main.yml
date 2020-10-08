@@ -42,4 +42,4 @@
 
 - name: Update Ansible facts if they were modified
   action: setup
-  when: radvd__register_facts|changed
+  when: radvd__register_facts.changed
