@@ -38,6 +38,10 @@
   service:
     name: radvd
     state: started
+
+- name: Enable the radvd service
+  service:
+    name: radvd
     enabled: true
 
 - name: Update Ansible facts if they were modified
